@@ -59,6 +59,7 @@ spec:
     instance: db4
   ports:
     - protocol: TCP
-      port: 30004
+      port: 10004
       targetPort: 5432
+      nodePort: 30004
   type: NodePort

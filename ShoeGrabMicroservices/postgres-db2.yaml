@@ -59,6 +59,7 @@ spec:
     instance: db2
   ports:
     - protocol: TCP
-      port: 30002
+      port: 10002
       targetPort: 5432
+      nodePort: 30002
   type: NodePort
