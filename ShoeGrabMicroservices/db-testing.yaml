@@ -151,8 +151,8 @@ spec:
     component: postgres-db1
   ports:
     - protocol: TCP
-      port: 5432
-      targetPort: 30001
+      port: 30001
+      targetPort: 5432
   type: NodePort
 
 ---
@@ -166,8 +166,8 @@ spec:
     component: postgres-db2
   ports:
     - protocol: TCP
-      port: 5432
-      targetPort: 30002
+      port: 30002
+      targetPort: 5432
   type: NodePort
 
 ---
@@ -181,8 +181,8 @@ spec:
     component: postgres-db3
   ports:
     - protocol: TCP
-      port: 5432
-      targetPort: 30003
+      port: 30003
+      targetPort: 5432
   type: NodePort
 
 ---
@@ -196,6 +196,6 @@ spec:
     component: postgres-db4
   ports:
     - protocol: TCP
-      port: 5432
-      targetPort: 30004
+      port: 30004
+      targetPort: 5432
   type: NodePort
