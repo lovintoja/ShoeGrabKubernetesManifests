@@ -1,0 +1,17 @@
+[Unit]
+Description=Monolith Database Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker run \
+    -p 40001:5432 \
+    -v monolith_db_data:/var/lib/postgresql/data \
+    --name monolith-db-container \
+    monolith-db
+ExecStop=/usr/bin/docker stop monolith-db-container
+ExecReload=/usr/bin/docker restart monolith-db-container
+
+[Install]
+WantedBy=multi-user.target
