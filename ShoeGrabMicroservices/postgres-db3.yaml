@@ -59,6 +59,6 @@ spec:
     instance: db3
   ports:
     - protocol: TCP
-      port: 30001
+      port: 30003
       targetPort: 5432
   type: NodePort

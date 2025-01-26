@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: StatefulSet # Use StatefulSet for persistent databases
+metadata:
+  name: postgres-db1
+spec:
+  serviceName: "postgres-db1-service" # Headless service for stable network IDs
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+      instance: db1
+  template:
+    metadata:
+      labels:
+        app: postgres
+        instance: db1
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:latest
+          envFrom:
+            - secretRef:
+                name: postgres-credentials
+          env:
+            - name: POSTGRES_DB
+              value: db1
+          ports:
+            - containerPort: 5432
+          resources:
+            limits:
+              memory: "1.5Gi"
+              cpu: "4"
+            requests:
+              memory: "256Mi"
+              cpu: "0.5"
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: data # This is a reference to the PVC
+          persistentVolumeClaim:
+            claimName: postgres-pvc-db1
+  volumeClaimTemplates: # This creates the PVC
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-db1-service
+spec:
+  selector:
+    app: postgres
+    instance: db1
+  ports:
+    - protocol: TCP
+      port: 30001
+      targetPort: 5432
+  type: NodePort
